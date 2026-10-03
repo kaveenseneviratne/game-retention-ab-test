@@ -1,0 +1,31 @@
+# Pre-registered analysis plan for the Cookie Cats gate experiment.
+# Everything that affects the result lives here and was fixed before looking at outcomes.
+# Changing a value after seeing the results should be called out in the memo.
+
+experiment:
+  name: cookie-cats-gate-move
+  description: Move the first progression gate from level 30 to level 40.
+  control: gate_30
+  treatment: gate_40
+  group_column: version
+  unit_column: userid
+
+data:
+  path: data/raw/cookie_cats.csv
+
+metrics:
+  primary: retention_7          # the long-term engagement signal we actually care about
+  secondary:
+    - retention_1
+  guardrail: sum_gamerounds     # must not get meaningfully worse
+
+analysis:
+  alpha: 0.05
+  power: 0.80
+  srm_alpha: 0.001              # strict on purpose; SRM p-values hover near 0 when something is broken
+  bootstrap_resamples: 10000
+  random_seed: 42
+  guardrail_cap_quantile: 0.9999  # caps a handful of extreme players instead of dropping them
+
+output:
+  dir: reports

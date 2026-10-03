@@ -1,0 +1,28 @@
+# Data stays out of git; the README says where to get it
+data/raw/*
+!data/raw/.gitkeep
+
+# Generated outputs (keep the figures used in the README, see docs/)
+reports/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+
+# Tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+.ipynb_checkpoints/
