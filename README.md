@@ -1,13 +1,15 @@
 # Cookie Cats: Should the First Gate Move to Level 40?
 
-[![CI](https://github.com/<your-username>/game-retention-ab-test/actions/workflows/ci.yml/badge.svg)](https://github.com/<your-username>/game-retention-ab-test/actions/workflows/ci.yml)
+[![CI](https://github.com/kaveenseneviratne/game-retention-ab-test/actions/workflows/ci.yml/badge.svg)](https://github.com/kaveenseneviratne/game-retention-ab-test/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 
 A reproducible analysis of a 90,189-player A/B test in the mobile puzzle game *Cookie Cats*.
 The test moved the first progression gate (where players must wait or pay to continue) from
 level 30 to level 40. This project answers one question: **did that change hurt player retention?**
 
-**Recommendation: [KEEP / SHIP / INCONCLUSIVE].** [One sentence with the effect size and 95% CI.]
+**Recommendation: keep the gate at level 30.** Moving it to level 40 cut 7-day retention by
+0.82 pp (19.02% → 18.20%, 95% CI −1.33 to −0.31 pp, p = 0.002): about 8 fewer players per 1,000
+still playing after a week.
 Full reasoning in the [decision memo](docs/decision_memo.md).
 
 ![Retention by group](docs/images/retention_by_group.png)
@@ -16,9 +18,9 @@ Full reasoning in the [decision memo](docs/decision_memo.md).
 
 | Metric | Role | gate_30 | gate_40 | Difference (95% CI) | p-value |
 |---|---|---|---|---|---|
-| 7-day retention | Primary | [x]% | [x]% | [x] pp ([x] to [x]) | [x] |
-| 1-day retention | Secondary | [x]% | [x]% | [x] pp ([x] to [x]) | [x] (Holm) |
-| Game rounds (median) | Guardrail | [x] | [x] | [x] | [x] (Mann-Whitney) |
+| 7-day retention | Primary | 19.02% | 18.20% | **−0.82 pp** (−1.33 to −0.31) | 0.002 |
+| 1-day retention | Secondary | 44.82% | 44.23% | −0.59 pp (−1.24 to +0.06) | 0.074 (Holm) |
+| Game rounds (median) | Guardrail | 17 | 16 | −1 (bootstrap CI −1 to 0) | 0.050 (Mann-Whitney, r = −0.008) |
 
 ## Approach
 
@@ -64,7 +66,7 @@ looking at any outcomes: primary metric, guardrail, significance level and outli
 Requires Python 3.11+.
 
 ```bash
-git clone https://github.com/<your-username>/game-retention-ab-test.git
+git clone https://github.com/kaveenseneviratne/game-retention-ab-test.git
 cd game-retention-ab-test
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 make install
@@ -82,7 +84,8 @@ make check     # lint, type checks and tests, same as CI
 
 - **Short horizon.** Retention is measured at 1 and 7 days; long-term effects aren't observed.
 - **No monetisation data.** The gate also drives in-app purchases, which this data can't measure.
-- **[Add anything specific you found, e.g. the SRM result.]**
+- **Traffic split.** gate_40 received 789 more players (50.4% vs 49.6%). This passes the
+  pre-registered SRM threshold (p = 0.009 against α = 0.001) but is flagged in the memo.
 
 ## Tech
 
