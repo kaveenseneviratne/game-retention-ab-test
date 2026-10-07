@@ -9,7 +9,7 @@ level 30 to level 40. This project answers one question: **did that change hurt 
 
 **Recommendation: keep the gate at level 30.** Moving it to level 40 cut 7-day retention by
 0.82 pp (19.02% → 18.20%, 95% CI −1.33 to −0.31 pp, p = 0.002): about 8 fewer players per 1,000
-still playing after a week.
+still playing.
 Full reasoning in the [decision memo](docs/decision_memo.md).
 
 ![Retention by group](docs/images/retention_by_group.png)
